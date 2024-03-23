@@ -60,6 +60,7 @@
   },
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "runnode": "npx hardhat node --network hardhat --hostname 0.0.0.0 --show-stack-traces"
   }
 }

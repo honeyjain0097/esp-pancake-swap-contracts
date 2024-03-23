@@ -17,6 +17,8 @@ import './base/ERC721Permit.sol';
 import './base/PeripheryValidation.sol';
 import './base/SelfPermit.sol';
 import './base/PoolInitializer.sol';
+import "hardhat/console.sol";
+
 
 /// @title NFT positions
 /// @notice Wraps Pancake V3 positions in the ERC721 non-fungible token interface
@@ -139,6 +141,7 @@ contract NonfungiblePositionManager is
         )
     {
         IPancakeV3Pool pool;
+        console.log("Inside Mint Function....");
         (liquidity, amount0, amount1, pool) = addLiquidity(
             AddLiquidityParams({
                 token0: params.token0,
@@ -154,11 +157,15 @@ contract NonfungiblePositionManager is
             })
         );
 
+        console.log("Minting NFT");
         _mint(params.recipient, (tokenId = _nextId++));
+
+        console.log("Computing position of pool..");
 
         bytes32 positionKey = PositionKey.compute(address(this), params.tickLower, params.tickUpper);
         (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
 
+        console.log("Getting pool Id.. ");
         // idempotent set
         uint80 poolId =
             cachePoolKey(

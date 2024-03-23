@@ -22,7 +22,11 @@ async function main() {
   const pancakeV3Factory_address = v3DeployedContracts.PancakeV3Factory
 
   const PancakeV3LmPoolDeployer = await ethers.getContractFactory('PancakeV3LmPoolDeployer')
-  const pancakeV3LmPoolDeployer = await PancakeV3LmPoolDeployer.deploy(mcV3DeployedContracts.MasterChefV3)
+  const pancakeV3LmPoolDeployer = await PancakeV3LmPoolDeployer.deploy(mcV3DeployedContracts.MasterChefV3, 
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    })
 
   console.log('pancakeV3LmPoolDeployer deployed to:', pancakeV3LmPoolDeployer.address)
 

@@ -68,7 +68,11 @@ async function main() {
   const pancakeV3Factory_address = deployedContracts.PancakeV3Factory
 
   const SwapRouter = new ContractFactory(artifacts.SwapRouter.abi, artifacts.SwapRouter.bytecode, owner)
-  const swapRouter = await SwapRouter.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE)
+  const swapRouter = await SwapRouter.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    })
 
   // await tryVerify(swapRouter, [pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE])
   console.log('swapRouter', swapRouter.address)
@@ -127,9 +131,12 @@ async function main() {
     owner
   )
   const baseTokenUri = 'https://nft.pancakeswap.com/v3/'
+  const gasPriceWei = ethers.utils.parseUnits('50', 'gwei');
+
   const nonfungibleTokenPositionDescriptor = await upgrades.deployProxy(NonfungibleTokenPositionDescriptor, [
-    baseTokenUri,
-  ])
+    baseTokenUri
+  ]
+  )
   await nonfungibleTokenPositionDescriptor.deployed()
   console.log('nonfungibleTokenPositionDescriptor', nonfungibleTokenPositionDescriptor.address)
 
@@ -144,7 +151,11 @@ async function main() {
     pancakeV3PoolDeployer_address,
     pancakeV3Factory_address,
     config.WNATIVE,
-    nonfungibleTokenPositionDescriptor.address
+    nonfungibleTokenPositionDescriptor.address,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    }
   )
 
   // await tryVerify(nonfungiblePositionManager, [
@@ -161,7 +172,11 @@ async function main() {
     owner
   )
 
-  const pancakeInterfaceMulticall = await PancakeInterfaceMulticall.deploy()
+  const pancakeInterfaceMulticall = await PancakeInterfaceMulticall.deploy(
+  { 
+    gasPrice: 50000000,
+    gasLimit: 50000000 
+  })
   console.log('PancakeInterfaceMulticall', pancakeInterfaceMulticall.address)
 
   // await tryVerify(pancakeInterfaceMulticall)
@@ -171,7 +186,11 @@ async function main() {
     pancakeV3PoolDeployer_address,
     pancakeV3Factory_address,
     config.WNATIVE,
-    nonfungiblePositionManager.address
+    nonfungiblePositionManager.address,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    }
   )
   console.log('V3Migrator', v3Migrator.address)
 
@@ -183,13 +202,22 @@ async function main() {
   // ])
 
   const TickLens = new ContractFactory(artifacts.TickLens.abi, artifacts.TickLens.bytecode, owner)
-  const tickLens = await TickLens.deploy()
+  const tickLens = await TickLens.deploy(
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    }
+  )
   console.log('TickLens', tickLens.address)
 
   // await tryVerify(tickLens)
 
   const QuoterV2 = new ContractFactory(artifacts.QuoterV2.abi, artifacts.QuoterV2.bytecode, owner)
-  const quoterV2 = await QuoterV2.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE)
+  const quoterV2 = await QuoterV2.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    })
   console.log('QuoterV2', quoterV2.address)
 
   // await tryVerify(quoterV2, [pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE])

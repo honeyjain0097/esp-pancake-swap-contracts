@@ -21,7 +21,12 @@ async function main() {
   /** SmartRouterHelper */
   console.log('Deploying SmartRouterHelper...')
   const SmartRouterHelper = await ethers.getContractFactory('SmartRouterHelper')
-  const smartRouterHelper = await SmartRouterHelper.deploy()
+  const smartRouterHelper = await SmartRouterHelper.deploy(
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    }
+  )
   console.log('SmartRouterHelper deployed to:', smartRouterHelper.address)
   // await tryVerify(smartRouterHelper)
 
@@ -39,7 +44,11 @@ async function main() {
     positionManager_address,
     config.stableFactory,
     config.stableInfo,
-    config.WNATIVE
+    config.WNATIVE,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    }
   )
   console.log('SmartRouter deployed to:', smartRouter.address)
 
@@ -64,7 +73,11 @@ async function main() {
     pancakeV3Factory_address,
     config.v2Factory,
     config.stableFactory,
-    config.WNATIVE
+    config.WNATIVE,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    }
   )
   console.log('MixedRouteQuoterV1 deployed to:', mixedRouteQuoterV1.address)
 
@@ -82,7 +95,11 @@ async function main() {
       SmartRouterHelper: smartRouterHelper.address,
     },
   })
-  const quoterV2 = await QuoterV2.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE)
+  const quoterV2 = await QuoterV2.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE,
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    })
   console.log('QuoterV2 deployed to:', quoterV2.address)
 
   // await tryVerify(quoterV2, [pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE])
@@ -93,7 +110,10 @@ async function main() {
       SmartRouterHelper: smartRouterHelper.address,
     },
   })
-  const tokenValidator = await TokenValidator.deploy(config.v2Factory, positionManager_address)
+  const tokenValidator = await TokenValidator.deploy(config.v2Factory, positionManager_address,     { 
+    gasPrice: 50000000,
+    gasLimit: 50000000 
+  })
   console.log('TokenValidator deployed to:', tokenValidator.address)
 
   // await tryVerify(tokenValidator, [config.v2Factory, positionManager_address])

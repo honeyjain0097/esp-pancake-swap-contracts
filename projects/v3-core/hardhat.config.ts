@@ -51,7 +51,7 @@ const DEFAULT_COMPILER_SETTINGS = {
 }
 
 const bscTestnet: NetworkUserConfig = {
-  url: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+  url: 'https://data-seed-prebsc-1-s1.binance.org:9546/',
   chainId: 97,
   accounts: [process.env.KEY_TESTNET!],
 }
@@ -74,6 +74,18 @@ const eth: NetworkUserConfig = {
   accounts: [process.env.KEY_ETH!],
 }
 
+const local: NetworkUserConfig = {
+  url: 'http://localhost:9546',
+  chainId: 9090,
+  accounts: [process.env.KEY_LOCAL!],
+}
+
+const escTestnet: NetworkUserConfig = {
+  url: 'https://rpc-testnet.escscan.com',
+  chainId: 1337,
+  accounts: [process.env.KEY_ESC_TESTNET!],
+}
+
 export default {
   networks: {
     hardhat: {
@@ -83,6 +95,9 @@ export default {
     ...(process.env.KEY_MAINNET && { bscMainnet }),
     ...(process.env.KEY_GOERLI && { goerli }),
     ...(process.env.KEY_ETH && { eth }),
+    ...(process.env.KEY_LOCAL && { local }),
+    ...(process.env.KEY_ESC_TESTNET && { escTestnet }),
+
     // mainnet: bscMainnet,
   },
   etherscan: {

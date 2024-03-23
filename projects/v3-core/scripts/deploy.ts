@@ -24,7 +24,11 @@ async function main() {
     owner
   )
   if (!pancakeV3PoolDeployer_address) {
-    pancakeV3PoolDeployer = await PancakeV3PoolDeployer.deploy()
+    pancakeV3PoolDeployer = await PancakeV3PoolDeployer.deploy(      
+    { 
+      gasPrice: 50000000,
+      gasLimit: 50000000 
+    })
 
     pancakeV3PoolDeployer_address = pancakeV3PoolDeployer.address
     console.log('pancakeV3PoolDeployer', pancakeV3PoolDeployer_address)
@@ -44,7 +48,11 @@ async function main() {
       artifacts.PancakeV3Factory.bytecode,
       owner
     )
-    pancakeV3Factory = await PancakeV3Factory.deploy(pancakeV3PoolDeployer_address)
+    pancakeV3Factory = await PancakeV3Factory.deploy(pancakeV3PoolDeployer_address, 
+      { 
+        gasPrice: 50000000,
+        gasLimit: 50000000 
+      })
 
     pancakeV3Factory_address = pancakeV3Factory.address
     console.log('pancakeV3Factory', pancakeV3Factory_address)

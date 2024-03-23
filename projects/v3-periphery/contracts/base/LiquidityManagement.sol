@@ -12,6 +12,7 @@ import '../libraries/LiquidityAmounts.sol';
 
 import './PeripheryPayments.sol';
 import './PeripheryImmutableState.sol';
+import "hardhat/console.sol";
 
 /// @title Liquidity management functions
 /// @notice Internal functions for safely managing liquidity in PancakeSwap V3
@@ -57,10 +58,13 @@ abstract contract LiquidityManagement is IPancakeV3MintCallback, PeripheryImmuta
             IPancakeV3Pool pool
         )
     {
+        console.log("Inside add liquidity function..");
         PoolAddress.PoolKey memory poolKey =
             PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee});
 
         pool = IPancakeV3Pool(PoolAddress.computeAddress(deployer, poolKey));
+
+        console.log("Computing pool address...");
 
         // compute the liquidity amount
         {
@@ -68,6 +72,7 @@ abstract contract LiquidityManagement is IPancakeV3MintCallback, PeripheryImmuta
             uint160 sqrtRatioAX96 = TickMath.getSqrtRatioAtTick(params.tickLower);
             uint160 sqrtRatioBX96 = TickMath.getSqrtRatioAtTick(params.tickUpper);
 
+        console.log("Getting liquidity amount for pool...");
             liquidity = LiquidityAmounts.getLiquidityForAmounts(
                 sqrtPriceX96,
                 sqrtRatioAX96,
@@ -76,6 +81,7 @@ abstract contract LiquidityManagement is IPancakeV3MintCallback, PeripheryImmuta
                 params.amount1Desired
             );
         }
+        console.log("Minting new position....");
 
         (amount0, amount1) = pool.mint(
             params.recipient,
